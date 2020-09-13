@@ -25,9 +25,9 @@ class WebsiteUser(HttpUser):
     def index(self):
         self.client.get('/')
 
-    @task(2)
-    def all(self):
-        self.client.get('/students')
+    # @task(2)
+    # def all(self):
+    #     self.client.get('/students')
 
     @task(2)
     def get_one(self):
