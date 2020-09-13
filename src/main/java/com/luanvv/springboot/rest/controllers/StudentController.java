@@ -30,7 +30,7 @@ public class StudentController {
 		return studentRepository.findAll();
 	}
 
-	@GetMapping("/students/{id}")
+	@GetMapping("/student/{id}")
 	public Student retrieveStudent(@PathVariable int id) {
 		return studentRepository.findById(id)
 				.orElseThrow(() -> new StudentNotFoundException("id-" + id));
