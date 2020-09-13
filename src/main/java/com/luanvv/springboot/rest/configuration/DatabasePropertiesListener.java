@@ -27,7 +27,6 @@ import com.luanvv.springboot.rest.exceptions.DataSourceSecretInvalidException;
 public class DatabasePropertiesListener implements ApplicationListener<ApplicationPreparedEvent> {
 
 	private static final String AWS_SECRETS_REGION = "spring.aws.secretsmanager.region";
-//	private static final String AWS_SECRETS_ENDPOINT = "spring.aws.secretsmanager.endpoint";
 	private static final String AWS_SECRET_NAME = "spring.aws.secretsmanager.secretName";
 	private final static String SPRING_DATASOURCE_USERNAME = "spring.datasource.username";
 	private final static String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password";
@@ -37,12 +36,7 @@ public class DatabasePropertiesListener implements ApplicationListener<Applicati
 	public void onApplicationEvent(ApplicationPreparedEvent event) {
 		ConfigurableEnvironment env = event.getApplicationContext().getEnvironment();
 		String secretName = env.getProperty(AWS_SECRET_NAME);
-//		String endpoints = env.getProperty(AWS_SECRETS_ENDPOINT);
 		String AWSRegion = env.getProperty(AWS_SECRETS_REGION);
-//		AwsClientBuilder.EndpointConfiguration config = new AwsClientBuilder.EndpointConfiguration(endpoints,
-//				AWSRegion);
-//		AWSSecretsManagerClientBuilder clientBuilder = AWSSecretsManagerClientBuilder.standard();
-//		clientBuilder.setEndpointConfiguration(config);
 		AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
                 .withRegion(AWSRegion)
                 .build();
@@ -75,12 +69,11 @@ public class DatabasePropertiesListener implements ApplicationListener<Applicati
 		
 		String engine = secretsJson.get("engine").textValue();
 		String host = secretsJson.get("host").textValue();
-		Number port = secretsJson.get("port").numberValue();
 		String dbname = secretsJson.get("dbInstanceIdentifier").textValue();
 		String username = secretsJson.get("username").textValue();
 		String password = secretsJson.get("password").textValue();
 		String url = MessageFormat.format(
-				"jdbc:{0}://{1}:{2}/{3}?useSSL=false&useUnicode=yes&characterEncoding=UTF-8", engine, host, port, dbname);
+				"jdbc:{0}://{1}:3306/{2}?useSSL=false&useUnicode=yes&characterEncoding=UTF-8", engine, host, dbname);
 		Properties props = new Properties();
 		props.put(SPRING_DATASOURCE_USERNAME, username);
 		props.put(SPRING_DATASOURCE_PASSWORD, password);
