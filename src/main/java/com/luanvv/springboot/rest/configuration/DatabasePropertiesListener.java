@@ -69,7 +69,7 @@ public class DatabasePropertiesListener implements ApplicationListener<Applicati
 		
 		String engine = secretsJson.get("engine").textValue();
 		String host = secretsJson.get("host").textValue();
-		String dbname = secretsJson.get("dbInstanceIdentifier").textValue();
+		String dbname = secretsJson.get("dbname").textValue();
 		String username = secretsJson.get("username").textValue();
 		String password = secretsJson.get("password").textValue();
 		String url = MessageFormat.format(
